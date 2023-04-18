@@ -4,10 +4,10 @@
 - add preset in your uno.config.ts
 
 ```ts
-import { presetShadcn } from './preset.shadcn'
+import { presetAnimate } from './preset.animate'
 
 export default defineConfig({
-  presets: [presetUno(), presetShadcn()],
+  presets: [presetUno(), presetAnimate()],
   shortcuts: [
     {
       'flex-center': 'flex justify-center items-center',
@@ -25,17 +25,17 @@ source code
 import type { Preset } from 'unocss'
 import type { PresetMiniOptions, Theme } from 'unocss/preset-mini'
 
-export interface PresetShadcnOptions extends PresetMiniOptions {}
+export interface PresetAnimateOptions extends PresetMiniOptions {}
 
-export function presetShadcn(options: PresetShadcnOptions = {}): Preset<Theme> {
+export function presetAnimate(options: PresetAnimateOptions = {}): Preset<Theme> {
   return {
-    name: 'unocss-preset-shadcn',
+    name: 'unocss-preset-animate',
     preflights: [
       {
         getCSS: () => `
-          @keyframes shadcn-down { from{ height: 0 } to { height: var(--radix-accordion-content-height)} }
-          @keyframes shadcn-up { from{ height: var(--radix-accordion-content-height)} to { height: 0 } }
-          @keyframes shadcn-enter { from{ opacity: var(--un-enter-opacity, 1); transform: translate3d(var(--un-enter-translate-x, 0), var(--un-enter-translate-y, 0), 0) scale3d(var(--un-enter-scale, 1), var(--un-enter-scale, 1), var(--un-enter-scale, 1)) rotate(var(--un-enter-rotate, 0)) } }
+          @keyframes ani-down { from{ height: 0 } to { height: var(--radix-accordion-content-height)} }
+          @keyframes ani-up { from{ height: var(--radix-accordion-content-height)} to { height: 0 } }
+          @keyframes ani-enter { from{ opacity: var(--un-enter-opacity, 1); transform: translate3d(var(--un-enter-translate-x, 0), var(--un-enter-translate-y, 0), 0) scale3d(var(--un-enter-scale, 1), var(--un-enter-scale, 1), var(--un-enter-scale, 1)) rotate(var(--un-enter-rotate, 0)) } }
           @keyframes shadcn-exit { to{ opacity: var(--un-exit-opacity, 1); transform: translate3d(var(--un-exit-translate-x, 0), var(--un-exit-translate-y, 0), 0) scale3d(var(--un-exit-scale, 1), var(--un-exit-scale, 1), var(--un-exit-scale, 1)) rotate(var(--un-exit-rotate, 0)) } }
         `,
       },
@@ -44,19 +44,19 @@ export function presetShadcn(options: PresetShadcnOptions = {}): Preset<Theme> {
       [
         'accordion-down',
         {
-          animation: 'shadcn-down 0.2s ease-out',
+          animation: 'ani-down 0.2s ease-out',
         },
       ],
       [
         'accordion-up',
         {
-          animation: 'shadcn-up 0.2s ease-out',
+          animation: 'ani-up 0.2s ease-out',
         },
       ],
       [
         'animate-in',
         {
-          'animation-name': 'shadcn-enter',
+          'animation-name': 'ani-enter',
           'animation-duration': 'var(--un-animate-duration)',
           '--un-animate-duration': '150ms',
           '--un-enter-opacity': 'initial',
@@ -69,7 +69,7 @@ export function presetShadcn(options: PresetShadcnOptions = {}): Preset<Theme> {
       [
         'animate-out',
         {
-          'animation-name': 'shadcn-exit',
+          'animation-name': 'ani-exit',
           'animation-duration': 'var(--un-animate-duration)',
           '--un-animate-duration': '150ms',
           '--un-exit-opacity': 'initial',
@@ -97,5 +97,5 @@ export function presetShadcn(options: PresetShadcnOptions = {}): Preset<Theme> {
   }
 }
 
-export default presetShadcn
+export default presetAnimate
 ```
