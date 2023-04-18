@@ -1,7 +1,7 @@
 # unocss-preset-animate
 
 - Copy these code to your project
-- add preset in your uno.config.ts
+- add preset in your `uno.config.ts`
 
 ```ts
 import { presetAnimate } from './preset.animate'
