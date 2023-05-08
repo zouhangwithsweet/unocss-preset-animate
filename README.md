@@ -36,7 +36,7 @@ export function presetAnimate(options: PresetAnimateOptions = {}): Preset<Theme>
           @keyframes ani-down { from{ height: 0 } to { height: var(--radix-accordion-content-height)} }
           @keyframes ani-up { from{ height: var(--radix-accordion-content-height)} to { height: 0 } }
           @keyframes ani-enter { from{ opacity: var(--un-enter-opacity, 1); transform: translate3d(var(--un-enter-translate-x, 0), var(--un-enter-translate-y, 0), 0) scale3d(var(--un-enter-scale, 1), var(--un-enter-scale, 1), var(--un-enter-scale, 1)) rotate(var(--un-enter-rotate, 0)) } }
-          @keyframes shadcn-exit { to{ opacity: var(--un-exit-opacity, 1); transform: translate3d(var(--un-exit-translate-x, 0), var(--un-exit-translate-y, 0), 0) scale3d(var(--un-exit-scale, 1), var(--un-exit-scale, 1), var(--un-exit-scale, 1)) rotate(var(--un-exit-rotate, 0)) } }
+          @keyframes ani-exit { to{ opacity: var(--un-exit-opacity, 1); transform: translate3d(var(--un-exit-translate-x, 0), var(--un-exit-translate-y, 0), 0) scale3d(var(--un-exit-scale, 1), var(--un-exit-scale, 1), var(--un-exit-scale, 1)) rotate(var(--un-exit-rotate, 0)) } }
         `,
       },
     ],
@@ -85,14 +85,54 @@ export function presetAnimate(options: PresetAnimateOptions = {}): Preset<Theme>
       [/^zoom-out-?(\d+)?$/, ([, d]) => ({ '--un-out-scale': `${Number(d ?? 0) / 100}` })],
       [/^spin-in-?(\d+)?$/, ([, d]) => ({ '--un-enter-rotate': `${Number(d ?? 0)}deg` })],
       [/^spin-out-?(\d+)?$/, ([, d]) => ({ '--un-exit-rotate': `${Number(d ?? 0)}deg` })],
-      [/^slide-in-from-top-?(\d+)?$/, ([, d]) => ({ '--un-enter-translate-y': typeof d === 'undefined' ? '-100%' : `-${Number(d) / 4}rem` })],
-      [/^slide-in-from-bottom-?(\d+)?$/, ([, d]) => ({ '--un-enter-translate-y': typeof d === 'undefined' ? '100%' : `${Number(d) / 4}rem` })],
-      [/^slide-in-from-left-?(\d+)?$/, ([, d]) => ({ '--un-enter-translate-x': typeof d === 'undefined' ? '-100%' : `-${Number(d) / 4}rem` })],
-      [/^slide-in-from-right-?(\d+)?$/, ([, d]) => ({ '--un-enter-translate-x': typeof d === 'undefined' ? '100%' : `${Number(d) / 4}rem` })],
-      [/^slide-out-from-top-?(\d+)?$/, ([, d]) => ({ '--un-exit-translate-y': typeof d === 'undefined' ? '-100%' : `-${Number(d) / 4}rem` })],
-      [/^slide-out-from-bottom-?(\d+)?$/, ([, d]) => ({ '--un-exit-translate-y': typeof d === 'undefined' ? '100%' : `${Number(d) / 4}rem` })],
-      [/^slide-out-from-left-?(\d+)?$/, ([, d]) => ({ '--un-exit-translate-x': typeof d === 'undefined' ? '-100%' : `-${Number(d) / 4}rem` })],
-      [/^slide-out-from-right-?(\d+)?$/, ([, d]) => ({ '--un-exit-translate-x': typeof d === 'undefined' ? '100%' : `${Number(d) / 4}rem` })],
+      [
+        /^slide-in-from-top-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-enter-translate-y': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+        }),
+      ],
+      [
+        /^slide-in-from-bottom-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-enter-translate-y': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+        }),
+      ],
+      [
+        /^slide-in-from-left-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-enter-translate-x': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+        }),
+      ],
+      [
+        /^slide-in-from-right-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-enter-translate-x': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+        }),
+      ],
+      [
+        /^slide-out-to-top-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-exit-translate-y': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+        }),
+      ],
+      [
+        /^slide-out-to-bottom-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-exit-translate-y': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+        }),
+      ],
+      [
+        /^slide-out-to-left-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-exit-translate-x': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+        }),
+      ],
+      [
+        /^slide-out-to-right-?(\d+|full)?$/,
+        ([, d]) => ({
+          '--un-exit-translate-x': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+        }),
+      ],
     ],
   }
 }
