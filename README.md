@@ -22,8 +22,13 @@ export default defineConfig({
 source code
 
 ```ts
+import { h } from '@unocss/preset-mini/utils'
 import type { Preset } from 'unocss'
 import type { PresetMiniOptions, Theme } from 'unocss/preset-mini'
+
+const handleMatchNumber = (v: string, defaultVal = '0') =>
+  h.bracket.cssvar.global.auto.fraction.number(v || defaultVal)?.replace('%', '')
+const handleMatchRem = (v: string, defaultVal = 'full') => h.bracket.cssvar.global.auto.fraction.rem(v || defaultVal)
 
 export interface PresetAnimateOptions extends PresetMiniOptions {}
 
@@ -79,58 +84,63 @@ export function presetAnimate(options: PresetAnimateOptions = {}): Preset<Theme>
           '--un-exit-translate-y': 'initial',
         },
       ],
-      [/^fade-in-?(\d+)?$/, ([, d]) => ({ '--un-enter-opacity': `${Number(d ?? 0) / 100}` })],
-      [/^fade-out-?(\d+)?$/, ([, d]) => ({ '--un-exit-opacity': `${Number(d ?? 0) / 100}` })],
-      [/^zoom-in-?(\d+)?$/, ([, d]) => ({ '--un-enter-scale': `${Number(d ?? 0) / 100}` })],
-      [/^zoom-out-?(\d+)?$/, ([, d]) => ({ '--un-out-scale': `${Number(d ?? 0) / 100}` })],
-      [/^spin-in-?(\d+)?$/, ([, d]) => ({ '--un-enter-rotate': `${Number(d ?? 0)}deg` })],
-      [/^spin-out-?(\d+)?$/, ([, d]) => ({ '--un-exit-rotate': `${Number(d ?? 0)}deg` })],
       [
-        /^slide-in-from-top-?(\d+|full)?$/,
+        /^fade-in-?(.+)?$/,
         ([, d]) => ({
-          '--un-enter-translate-y': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+          '--un-enter-opacity': `${Number(handleMatchNumber(d) || 0) / 100}`,
+        }),
+      ],
+      [/^fade-out-?(.+)?$/, ([, d]) => ({ '--un-exit-opacity': `${Number(handleMatchNumber(d) || 0) / 100}` })],
+      [/^zoom-in-?(.+)?$/, ([, d]) => ({ '--un-enter-scale': `${Number(handleMatchNumber(d) || 0) / 100}` })],
+      [/^zoom-out-?(.+)?$/, ([, d]) => ({ '--un-out-scale': `${Number(handleMatchNumber(d) || 0) / 100}` })],
+      [/^spin-in-?(.+)?$/, ([, d]) => ({ '--un-enter-rotate': `${Number(handleMatchNumber(d) || 0)}deg` })],
+      [/^spin-out-?(.+)?$/, ([, d]) => ({ '--un-exit-rotate': `${Number(handleMatchNumber(d) || 0)}deg` })],
+      [
+        /^slide-in-from-top-?(.+)?$/,
+        ([, d]) => ({
+          '--un-enter-translate-y': `-${handleMatchRem(d)}`,
         }),
       ],
       [
-        /^slide-in-from-bottom-?(\d+|full)?$/,
+        /^slide-in-from-bottom-?(.+)?$/,
         ([, d]) => ({
-          '--un-enter-translate-y': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+          '--un-enter-translate-y': handleMatchRem(d),
         }),
       ],
       [
-        /^slide-in-from-left-?(\d+|full)?$/,
+        /^slide-in-from-left-?(.+)?$/,
         ([, d]) => ({
-          '--un-enter-translate-x': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+          '--un-enter-translate-x': `-${handleMatchRem(d)}`,
         }),
       ],
       [
-        /^slide-in-from-right-?(\d+|full)?$/,
+        /^slide-in-from-right-?(.+)?$/,
         ([, d]) => ({
-          '--un-enter-translate-x': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+          '--un-enter-translate-x': handleMatchRem(d),
         }),
       ],
       [
-        /^slide-out-to-top-?(\d+|full)?$/,
+        /^slide-out-to-top-?(.+)?$/,
         ([, d]) => ({
-          '--un-exit-translate-y': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+          '--un-exit-translate-y': `-${handleMatchRem(d)}`,
         }),
       ],
       [
-        /^slide-out-to-bottom-?(\d+|full)?$/,
+        /^slide-out-to-bottom-?(.+)?$/,
         ([, d]) => ({
-          '--un-exit-translate-y': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+          '--un-exit-translate-y': handleMatchRem(d),
         }),
       ],
       [
-        /^slide-out-to-left-?(\d+|full)?$/,
+        /^slide-out-to-left-?(.+)?$/,
         ([, d]) => ({
-          '--un-exit-translate-x': typeof d === 'undefined' || d === 'full' ? '-100%' : `-${Number(d) / 4}rem`,
+          '--un-exit-translate-x': `-${handleMatchRem(d)}`,
         }),
       ],
       [
-        /^slide-out-to-right-?(\d+|full)?$/,
+        /^slide-out-to-right-?(.+)?$/,
         ([, d]) => ({
-          '--un-exit-translate-x': typeof d === 'undefined' || d === 'full' ? '100%' : `${Number(d) / 4}rem`,
+          '--un-exit-translate-x': handleMatchRem(d),
         }),
       ],
     ],
